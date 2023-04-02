@@ -1,17 +1,23 @@
 import React from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import Account from './pages/Account'
+import Roadmap from './components/admin/roadmap/Roadmap'
+import Table from './components/admin/table/Table'
+import Admin from './pages/Admin'
 import Home from './pages/Home'
 import Login from './pages/Login.jsx'
 
 const App = () => {
-  const user = false
   return (
     <div>
       <BrowserRouter>
       <Routes>
-        <Route path='/' element={user ? <Home /> : <Login/>}>
+        {/* <Route path='/' element={user ? <Home /> : <Login/>}/>
+        <Route path='/' element={<Home />}>
           <Route index element={<h1>test</h1>} />
+        </Route> */}
+        <Route path='/admin' element={<Admin />}>
+          <Route index element={<Table />} />
+          <Route path='roadmap/:roadmapId' element={<Roadmap />} />
         </Route>
       </Routes>
       </BrowserRouter>
