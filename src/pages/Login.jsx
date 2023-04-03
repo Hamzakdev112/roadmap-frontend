@@ -1,6 +1,9 @@
 import React from 'react'
+import { userLogin } from '../apiCalls/signinApis';
+import { useNavigate } from 'react-router-dom';
 // import { LockClosedIcon } from '@heroicons/react/20/solid'
 const Login = () => {
+    const navigate=useNavigate()
     const handleSubmit=(e)=>{
         e.preventDefault()
         const data_obj=new FormData(e.currentTarget);
@@ -9,6 +12,7 @@ const Login = () => {
           password:data_obj.get('password')
     
         }
+        userLogin(data,navigate)
         console.log(data)
     }
   return (

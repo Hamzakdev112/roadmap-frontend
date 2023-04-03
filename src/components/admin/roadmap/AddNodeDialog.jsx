@@ -1,23 +1,22 @@
+import { Dialog, DialogContent, DialogTitle } from '@mui/material'
 import React, { useState } from 'react'
-import Dialog from '@mui/material/Dialog';
-import { DialogContent, DialogTitle } from '@mui/material';
-import {createRoadmap} from '../../../apiCalls/roadmapApis'
-import { useNavigate } from 'react-router-dom';
-const CreateRoadmapDialog = ({createRoadMapOpen,setCreateRoadMapOpen}) => {
-    const navigate = useNavigate()
-    const [title, setTitle] = useState('')
-    const [description, setDescription] = useState('')
+import { createNode } from '../../../apiCalls/nodesApis'
+
+const AddNodeDialog = ({openAddNodeDialog,setOpenAddNodeDialog,roadmapId,nodeId}) => {
+    const [title, setTitle] = useState()
+    const [description, setDescription] = useState()
+
     const handleCreate = (e)=>{
         e.preventDefault()
-        createRoadmap({title, description},navigate)
+        createNode({title, description,roadmapId, nodeId},setOpenAddNodeDialog)
     }
 
   return (
     <div>
-        <Dialog back open={createRoadMapOpen} fullWidth maxWidth="sm">
+          <Dialog back open={openAddNodeDialog} fullWidth maxWidth="sm">
             <DialogTitle className='flex justify-between'>
-                <h1>Create a new Roadmap</h1>
-                <button onClick={()=>setCreateRoadMapOpen(false)}>X</button>
+                <h1>Add a node</h1>
+                <button onClick={()=>setOpenAddNodeDialog(false)}>X</button>
             </DialogTitle>
         <DialogContent >
             <form className=' flex flex-col gap-[1em] p-[0.5em]' onSubmit={handleCreate}>
@@ -32,7 +31,7 @@ const CreateRoadmapDialog = ({createRoadMapOpen,setCreateRoadMapOpen}) => {
                 placeholder='Description'
                 className='focus:border-[#3384cf] outline-none p-1 border-[1px] border-[#888888]'
                 name="" id="" cols="30" rows="10" />
-                <button type='submit' className='border-[1px] border-[gray] mx-auto w-[100px]'>Create</button>
+                <button type='submit' className='border-[1px] border-[gray] mx-auto w-[100px]'>Add</button>
             </form>
         </DialogContent>
         </Dialog>
@@ -40,4 +39,4 @@ const CreateRoadmapDialog = ({createRoadMapOpen,setCreateRoadMapOpen}) => {
   )
 }
 
-export default CreateRoadmapDialog
+export default AddNodeDialog
