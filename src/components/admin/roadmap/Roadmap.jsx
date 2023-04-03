@@ -5,13 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { getAllNodes } from "../../../apiCalls/nodesApis";
 import AddNodeDialog from "./AddNodeDialog";
-// import "./styles.css";
-
-
-
-
 const containerStyles = {
-  width: "100vw",
+  width: "100%",
   height: "100vh"
 };
 
@@ -25,21 +20,22 @@ const useCenteredTree = () => {
   }, []);
   return [translate, containerRef];
 };
-
 export default function Roadmap() {
+  const dispatch = useDispatch()
+  const location = useLocation()
+  const roadmapId = location.pathname.split('/')[3]
+  useEffect(()=>{
+    getAllNodes(dispatch,roadmapId)
+  },[roadmapId])
   const [openSelect, setOpenSelect] = useState(null)
   const [openAddNodeDialog, setOpenAddNodeDialog] = useState(false)
-  console.log(openSelect)
   const renderForeignObjectNode = ({
     nodeDatum,
     toggleNode,
     foreignObjectProps
   }) => {
     return (
-      <g>
-        {/* <circle  r={15}></circle> */}
-        {/* `foreignObject` requires width & height to be explicitly set. */}
-        <foreignObject {...foreignObjectProps}>
+        <foreignObject className="hover:scale-[1.2] transition-all duration-300" {...foreignObjectProps} x="-90" y="-20">
           <div className=" text-[white] bg-[#e08888] flex flex-col gap-2  mr-[10px] border-none" style={{ }}>
             <h3 style={{ textAlign: "center" }}>{nodeDatum.name}</h3>
               <button className=" bg-[red]" onClick={()=>{
@@ -59,17 +55,11 @@ export default function Roadmap() {
           }
           </div>
         </foreignObject>
-      </g>
     )
   }
-  
   const {allNodes} = useSelector(state=>state.nodes)
-  const dispatch = useDispatch()
-  const location = useLocation()
-  const roadmapId = location.pathname.split('/')[3]
-  useEffect(()=>{
-    getAllNodes(dispatch,roadmapId)
-  },[])
+  
+
 
   const data = {children:allNodes,name:'Roadmap'}
   console.log(data)
@@ -81,8 +71,9 @@ export default function Roadmap() {
       <Tree
         data={data}
         translate={translate}
-        pathFunc="elbow"
+        pathFunc="step"
         nodeSize={nodeSize}
+        
         // collapsible={false}
         renderCustomNodeElement={(rd3tProps) =>
           renderForeignObjectNode({ ...rd3tProps, foreignObjectProps })
