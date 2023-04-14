@@ -1,6 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-
-
 const nodesSlice = createSlice({
     name:'Nodes',
     initialState:{

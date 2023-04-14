@@ -1,4 +1,3 @@
-import { Menu, MenuItem } from "@mui/material";
 import React, { useCallback, useEffect, useState } from "react";
 import Tree from "react-d3-tree";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,7 +7,7 @@ import AddNodeDialog from "./AddNodeDialog";
 const containerStyles = {
   width: "100%",
   height: "100vh"
-};
+}
 
 const useCenteredTree = () => {
   const [translate, setTranslate] = useState({ x: 0, y: 0 });
@@ -26,7 +25,7 @@ export default function Roadmap() {
   const roadmapId = location.pathname.split('/')[3]
   useEffect(()=>{
     getAllNodes(dispatch,roadmapId)
-  },[roadmapId])
+  },[roadmapId, dispatch])
   const [openSelect, setOpenSelect] = useState(null)
   const [openAddNodeDialog, setOpenAddNodeDialog] = useState(false)
   const renderForeignObjectNode = ({
@@ -58,7 +57,6 @@ export default function Roadmap() {
     )
   }
   const {allNodes} = useSelector(state=>state.nodes)
-  
 
 
   const data = {children:allNodes,name:'Roadmap'}

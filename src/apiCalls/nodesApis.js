@@ -3,9 +3,12 @@ import { getAllNodesFailure, getAllNodesStart, getAllNodesSuccess } from "../red
 
 
 export const getAllNodes =async (dispatch,roadmapId)=>{
-    try{
+    // console.log(roadmapId)
+    try{       
         dispatch(getAllNodesStart())
+        // console.log(roadmapId)
         const {data} = await axios.get(`http://localhost:4500/api/roadmap/nodes/get/${roadmapId}`)
+        // console.log(data)
         dispatch(getAllNodesSuccess(data.tree))
     }catch(err){
         dispatch(getAllNodesFailure(err))
@@ -14,9 +17,12 @@ export const getAllNodes =async (dispatch,roadmapId)=>{
  
 export const createNode =async({title, description,roadmapId, nodeId},setOpenAddNodeDialog)=>{
     try{
+        if(nodeId){
+            
+        }
         const {data} = await axios
-        .post(
-            `http://localhost:4500/api/roadmap/nodes/create/${roadmapId}/${nodeId}`,
+        .post(nodeId?
+            `http://localhost:4500/api/roadmap/nodes/create/${roadmapId}/${nodeId}`:`http://localhost:4500/api/roadmap/nodes/create/${roadmapId}`,
             {
                 title,
                 description
